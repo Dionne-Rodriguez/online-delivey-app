@@ -13,7 +13,7 @@
 
 <!-- <img src="{{renderImage}}" alt=""> -->
 <h2>{{renderImage}}</h2>
-    
+     
   </div>
 </template>
 

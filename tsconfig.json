@@ -1,0 +1,32 @@
+{
+"compilerOptions": {
+    "outDir": "./compiled",
+    "target": "es6",
+  "module": "esnext",
+  "strict": true,
+  "jsx": "preserve",
+  "importHelpers": true,
+  "moduleResolution": "node",
+  "resolveJsonModule": true,
+  "allowJs": true,
+  "esModuleInterop": true,
+  "allowSyntheticDefaultImports": true,
+  "experimentalDecorators": true,
+  "baseUrl": ".",
+  "types": ["jest"],
+  "paths": {
+      "@/*": ["src/"]
+  },
+  "sourceMap": true,
+  "lib": ["esnext", "dom", "DOM.Iterable", "scripthost"]
+},
+"include":[
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/unit/**/*.ts",
+    "tests/unit/**/*.tsx",
+    "src/router/index.js",
+],
+"exclude": ["node_modules", "src/**/*.js"]
+}
