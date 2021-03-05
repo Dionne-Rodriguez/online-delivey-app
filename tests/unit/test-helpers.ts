@@ -27,7 +27,7 @@ type VueTestFixture = {
 };
 
 export const createVueTestFixture: (configSetupFn?: (testConfig: any) => void) => VueTestFixture = (
-  configSetupFn = () => {}
+  configSetupFn = () => { }
 ) => {
   const localVue: typeof Vue = createLocalVue();
   localVue.use(Vuex);
@@ -50,7 +50,7 @@ export const rangeOf: (n: number) => number[] = (n) => [...Array(n).keys()];
 
 export type CommonPageFunctions = {
   answerDropDownQuestion: (questionDataId: string, optionIndex: number) => void;
- answerTextQuestion: (questionDataId: string, answer: string | boolean) => void;
+  answerTextQuestion: (questionDataId: string, answer: string | boolean) => void;
   answerRadioQuestion: (questionDataId: string, answer: string | boolean) => void;
   clickOnCheckbox: (dataTag: string) => void;
   clickOnNextButton: () => void;
@@ -102,7 +102,7 @@ export const createCommonPageFunctions = (
     }
   },
   hasNavigatedTo: () => {
-   const routerCalls = (router.push as any).mock.calls;
+    const routerCalls = (router.push as any).mock.calls;
     return routerCalls.length > 0 ? (router.push as any).mock.calls[0][0] : null;
   },
   hasNavigatedToWithParams: () => {
