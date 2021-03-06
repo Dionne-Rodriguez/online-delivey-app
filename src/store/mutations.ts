@@ -1,5 +1,5 @@
-import { State } from '@/store/state';
-import * as types from "@/js/types";
+import { State } from '../store/state';
+import * as types from "../js/types";
 import Vue from "vue"
 
 export default {

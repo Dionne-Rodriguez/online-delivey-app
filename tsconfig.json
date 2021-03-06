@@ -17,9 +17,7 @@
             "jest"
         ],
         "paths": {
-            "@/*": [
-                "src/"
-            ]
+            "@/*": ["src/"],
         },
         "sourceMap": true,
         "lib": [
@@ -36,7 +34,7 @@
         "tests/unit/**/*.ts",
         "tests/unit/**/*.tsx",
         "src/router/index.js",
-        "tests/unit/views/AddProduct.spec.js",
+        "tests/unit/views/AddProduct.spec.ts",
     ],
     "exclude": [
         "node_modules",

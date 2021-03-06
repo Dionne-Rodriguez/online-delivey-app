@@ -4,7 +4,7 @@
 <form action="" v-on:submit.prevent="onSubmit">
 <input v-model="title" type="text" placeholder="title">
 <input v-model="description" type="text" placeholder="Description">
-<input v-model="stock" type="number" placeholder="stock">
+<input data-stock-number v-model="stock" type="number" placeholder="stock">
 <input @change="handleFile" type="file">
 <button>Submit</button>
 

@@ -1,5 +1,5 @@
 import Vuex, { Store } from "vuex";
-import { State } from "@/store/state";
+import { State } from "../../src/store/state";
 import { createLocalVue, Wrapper } from "@vue/test-utils";
 import { Vue } from "vue/types/vue";
 import { isEqual } from "lodash";
