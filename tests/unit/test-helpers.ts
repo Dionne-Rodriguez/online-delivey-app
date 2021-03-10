@@ -50,7 +50,7 @@ export const rangeOf: (n: number) => number[] = (n) => [...Array(n).keys()];
 
 export type CommonPageFunctions = {
   answerDropDownQuestion: (questionDataId: string, optionIndex: number) => void;
-  answerTextQuestion: (questionDataId: string, answer: string | boolean) => void;
+ // answerTextQuestion: (questionDataId: string, answer: string | boolean) => void;
   answerRadioQuestion: (questionDataId: string, answer: string | boolean) => void;
   clickOnCheckbox: (dataTag: string) => void;
   clickOnNextButton: () => void;
@@ -78,8 +78,11 @@ export const createCommonPageFunctions = (
     const list = wrapper.findAll(".list li");
     list.at(optionIndex).trigger("click");
   },
-  answerTextQuestion: (questionDataId: string, answer: string | boolean) =>
-    wrapper.find(`[${questionDataId}] input`).setValue(answer),
+  // answerTextQuestion: (questionDataId: string, answer: string | boolean) => {
+  //   console.log(wrapper)
+  //   wrapper.find(`[${questionDataId}] input`).setValue(answer)
+  //
+  // },
   answerRadioQuestion: (questionDataId: string, answer: string | boolean) =>
     wrapper.find(`[${questionDataId}] input[value=${answer}]`).trigger("click"),
   clickOnCheckbox: (dataTag: string): void => {
@@ -111,6 +114,7 @@ export const createCommonPageFunctions = (
   },
   backButtonHasNavigatedTo: () => (router.go as any).mock.calls[0][0],
   hasUpdatedStateWith: (stateFn: any, params: any, atParamIndex = 1) => {
+    console.log((stateFn as any).mock.calls.length)
     const hasBeenCalled = (stateFn as any).mock.calls.length > 0;
 
     if (!hasBeenCalled) {
@@ -119,6 +123,17 @@ export const createCommonPageFunctions = (
     const callParams = (stateFn as any).mock.calls[0][atParamIndex];
     const unwrappedCalledParams = JSON.parse(JSON.stringify(callParams));
     const unwrappedParams = JSON.parse(JSON.stringify(params));
+    // const unwrappedParams =    [
+    //   {
+    //     title: 'Razzle Dazzle',
+    //     description: 'THE GOOD STUFF',
+    //     stock: '67'
+    //   }
+    // ]
+
+    console.log(unwrappedCalledParams)
+    console.log( unwrappedParams)
+    console.log(isEqual(unwrappedCalledParams, unwrappedParams))
     return isEqual(unwrappedCalledParams, unwrappedParams);
   }
 });

@@ -17,7 +17,7 @@
             "jest"
         ],
         "paths": {
-            "@/*": ["src/"],
+            "@/*": ["src/*"],
         },
         "sourceMap": true,
         "lib": [

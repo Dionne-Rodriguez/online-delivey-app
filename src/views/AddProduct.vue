@@ -1,18 +1,16 @@
 <template>
   <div class="home">
     <h1>Add a product</h1>
-<form action="" v-on:submit.prevent="onSubmit">
-<input v-model="title" type="text" placeholder="title">
-<input v-model="description" type="text" placeholder="Description">
+<form action=""  v-on:submit.prevent="onSubmit">
+<input data-product-title v-model="title" type="text" placeholder="title">
+<input data-product-description v-model="description" type="text" placeholder="Description">
 <input data-stock-number v-model="stock" type="number" placeholder="stock">
 <input @change="handleFile" type="file">
-<button>Submit</button>
+<button data-next @click="onSubmit">Submit</button>
 
 
 </form>
 
-<!-- <img src="{{renderImage}}" alt=""> -->
-<h2>{{renderImage}}</h2>
      
   </div>
 </template>
@@ -20,7 +18,8 @@
 <script>
 // @ is an alias to /src
 
-import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
+
 
 export default {
   name: "AddProduct",
@@ -40,22 +39,17 @@ export default {
     ...mapState([
       "product"
     ]),
-    product() {
-      return this.product;
-    },
- renderImage() {
-      return this.attachment || ""
-    }
   },
   methods: {
+    ...mapMutations(["setProduct"]),
     onSubmit() {
-      console.log("clicked");
-      
-      //set some type of object and save it to the state
-    console.log(this.title);
-    
+      console.log("should be in the onsubmit")
 
-      console.log('state',this.product.title);
+      this.setProduct([{
+        title: this.title,
+        description: this.description,
+        stock: this.stock
+      }])
       
 
     },
