@@ -1,27 +1,50 @@
 <template>
-  <div class="home">
+  <div class="page">
     <h1>Add a product</h1>
-    <form v-on:submit.prevent="onSubmit" enctype="multipart/form-data">
-
-      <input data-product-title v-model="title" type="text" placeholder="title">
+    <form class="form"v-on:submit.prevent="onSubmit" enctype="multipart/form-data">
+      <div class="input-section">
+        <h3 class="mt-6">Title</h3>
+      <input data-product-title v-model="title" type="text" placeholder="Title">
+      </div>
+      <div class="input-section">
+      <h3>Description</h3>
       <input data-product-description v-model="description" type="text" placeholder="Description">
-      <input data-product-type v-model="type" type="text" placeholder="type">
+      </div>
+
+      <div class="input-section">
+      <h3>Type</h3>
+      <b-form-select size="lg" v-model="selectedType" :options="types"></b-form-select>
+      </div>
+
+      <div class="input-section">
+      <h3>Stock Amount</h3>
       <input data-stock-number v-model="stock" type="number" placeholder="stock">
-      <b-container class="mb-4" v-cloak @drop.prevent="addFile" @dragover.prevent>
+      </div>
+
+
+      <b-container class="dropImageSection" v-cloak @drop.prevent="addFile" @dragover.prevent>
         <h2 class="mt-6">Files to Upload (Drag them over)</h2>
         <div class="file-drop">
           <h3>drop files here</h3>
+
+           <img @click="onPickFile" src="../assets/uploadIcon.png" alt="upload">
+          <input
+              type="file"
+              style="display: none"
+              ref="fileInput"
+              accept="image/*"
+              @change="handleFile"/>
+
         </div>
+      </b-container>
         <ul>
           <li v-for="file in file">
             {{ file.name }} ({{ file.size  }}) <button @click="removeFile(file)" title="Remove">X</button>
           </li>
         </ul>
-      </b-container>
-      <input @change="handleFile" type="file" ref="fileInput" >
-      <button data-next @submit="onSubmit">Submit</button>
 
-      <p>check out the product in the products page!</p>
+      <b-button variant="dark" class="btn" @click="onSubmit">Submit</b-button>
+
     </form>
 
 
@@ -30,7 +53,7 @@
 
 <script>
 
-import {mapState, mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 
 
 export default {
@@ -41,35 +64,30 @@ export default {
       description: "",
       stock:"0",
       file: null,
-      type:""
+      selectedType:null,
+      types: [
+        { value: null, text: 'Please select a product category' },
+        { value: 'Pre-Rolls', text: 'Pre-Rolls' },
+        { value: 'Flower', text: 'Flower' },
+        { value: 'Vaporizers', text: 'Vaporizers' },
+        { value: 'Concentrates', text: 'Concentrates' },
+        { value: 'Edibles', text: 'Edibles'}
+      ]
     }
   },
-  components: {
-
-  },
-  computed:{
-    ...mapState([
-      "product"
-    ]),
-  },
+  components: {},
+  computed:{},
   methods: {
     ...mapActions(["addProduct", "upload"]),
-    onPickImageFileInput() {
+    onPickFile() {
       this.$refs.fileInput.click()
     },
-    // onFilePicked(event) {
-    //   const files = event.target.files
-    //   console.log("files",files)
-    // },
     addFile(e) {
       let droppedFiles = e.dataTransfer.files;
       if(!droppedFiles) return;
-      // this tip, convert FileList to array, credit: https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
       ([...droppedFiles]).forEach(f => {
-        console.log("dropped image",f)
         this.file = f;
       });
-      console.log(this.file)
     },
     removeFile(file){
       this.file = this.file.filter(f => {
@@ -85,28 +103,113 @@ export default {
       this.addProduct({
         title: this.title,
         description: this.description,
-        type:this.type,
+        type:this.selectedType,
         stock: this.stock.toString(),
         file: formData
       })
 
 
     },
-    handleFile(event){
-      console.log("file ref", )
+    handleFile(){
       this.file = this.$refs.fileInput.files[0]
+      console.log("picked file",this.file )
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+.dropImageSection{
+  margin-top: 60px;
+}
+
+.btn {
+  width: 20%;
+  align-self: flex-end;
+  margin-top: 80px;
+}
+
+.page {
+  margin: 0% 15%;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 200px;
+
+  input {
+    width: 100%;
+    border-radius: 5px;
+    height: 48px;
+    padding: 1%;
+    border: 1px solid lightgrey;
+  }
+
+  .input-section {
+    width: 55%;
+    margin: 2%;
+  }
+}
 .file-drop{
-  height:150px;
+  height:200px;
+  border-radius: 5px;
+  text-align: center;
   border: 1px solid
+}
+
+.file-drop img {
+  height:50px;
+  width: 50px;
 }
 
 .file-drop h3 {
   margin-top:28px;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 </style>
