@@ -27,7 +27,7 @@
         <div class="file-drop">
           <h3>drop files here</h3>
 
-           <img @click="onPickFile" src="../assets/uploadIcon.png" alt="upload">
+           <img @click="onPickFile" src="../assets/uploadIcon.png" alt="uploadAndReturnDownLoadUrl">
           <input
               type="file"
               style="display: none"
@@ -78,7 +78,7 @@ export default {
   components: {},
   computed:{},
   methods: {
-    ...mapActions(["addProduct", "upload"]),
+    ...mapActions(["addProduct", "uploadAndReturnDownLoadUrl"]),
     onPickFile() {
       this.$refs.fileInput.click()
     },
@@ -95,19 +95,21 @@ export default {
       });
     },
     onSubmit() {
-      const formData = new FormData()
-      formData.append('file', "this.file")
+      if(this.file){
+     this.uploadAndReturnDownLoadUrl(this.file)
+        .then((url) => {
+          if (this.title){
+            this.addProduct({
+              title: this.title,
+              description: this.description,
+              type:this.selectedType,
+              stock: this.stock.toString(),
+              imageUrl: url
+            })
+          }
 
-      this.upload(formData)
-
-      this.addProduct({
-        title: this.title,
-        description: this.description,
-        type:this.selectedType,
-        stock: this.stock.toString(),
-        file: formData
-      })
-
+        })
+      }
 
     },
     handleFile(){

@@ -4,37 +4,46 @@
     <b-container>
 
 
-      <ProductCard :products="allProducts"/>
+<!--      <ProductCard :products="allProducts"/>-->
+
+      <b-button @click="products"> GET the shit</b-button>
+
+      <img v-if="this.url" :src="this.url" alt="">
     </b-container>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapState} from "vuex"
+import {mapGetters, mapState, mapActions} from "vuex"
 import ProductCard from "@/components/ProductCard"
+import addButton from "../components/addButton";
+import AddButton from "../components/addButton";
+import {storageRef} from "../firebase/firebase";
 export default {
 
 
   name: "Catalog",
-  components: {ProductCard},
-  // data(){
-  // return {
-  //   products:[]
-  // }
-  // },
+  components: {AddButton, ProductCard},
+  data(){
+  return {
+    product: null,
+    url:null
+  }
+  },
   computed: {
     ...mapGetters(["allProducts"]),
-    ...mapState(["products"]),
-    async products(){
-      //  this.products = this.store.state.products
-      return this.allProducts
-    },
-    async Products() {
-      console.log("Getter",this.$store)
-    }
+    // url(){
+    //   return this.url
+    // }
+
   },
   methods: {
+    ...mapActions(["getProducts"]),
+    async products(){
 
+     await this.getProducts()
+
+    },
   }
 
 }

@@ -1,8 +1,8 @@
-import Vue from 'vue'
+  import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
+  import { firestorePlugin }from 'vuefire'
 
 //STYLING
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -15,7 +15,7 @@ Vue.config.productionTip = false
 
 
 
-
+  Vue.use(firestorePlugin)
 Vue.use(BootstrapVue)
 
 Vue.use(IconsPlugin)
