@@ -2,13 +2,10 @@
   <div>
     <b-card-group deck deck v-for="row in formattedProducts">
       <b-card  v-for="club in row"
-               :title="club.description"
-               img-src="http://placehold.it/130?text=No-image"
+               :title="club.title"
+               :img-src="club.imageUrl"
                img-alt="Img"
                img-top>
-        <p class="card-text">
-          {{club.title}}
-        </p>
         <p class="card-text">
           {{club.description}}
         </p>

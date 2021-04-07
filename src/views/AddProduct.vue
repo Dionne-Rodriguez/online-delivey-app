@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <h1>Add a product</h1>
+    <h1>Add a products</h1>
     <form class="form"v-on:submit.prevent="onSubmit" enctype="multipart/form-data">
       <div class="input-section">
         <h3 class="mt-6">Title</h3>

@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
   import { firestorePlugin }from 'vuefire'
+  import {firestoreAction} from 'vuexfire'
 
 //STYLING
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -13,8 +14,7 @@ Vue.config.productionTip = false
 
 
 
-
-
+Vue.use(firestoreAction)
   Vue.use(firestorePlugin)
 Vue.use(BootstrapVue)
 

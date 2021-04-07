@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate"
-import {db, catalogReference,  storageRef} from "../firebase/firebase"
+import {db, catalogReference, storageRef, auth} from "../firebase/firebase"
+import {firestoreAction, vuexfireMutations} from "vuexfire";
+
+
 
 const axios = require("axios")
 
@@ -13,9 +16,11 @@ export default new Vuex.Store({
     products: []
   },
   mutations: {
-    setProduct: (state, product) =>  (
-        state.products.unshift(product)
-    )
+      ...vuexfireMutations,
+    setProducts: (state, products) =>  {(
+                state.products = products
+
+    )}
   },
   actions: {
     async addProduct({commit}, product) {
@@ -23,8 +28,21 @@ export default new Vuex.Store({
              .then(() => {
                  console.log("Product Successfully Uploaded!")
              })
-      //commit("setProduct", product)
     },
+    async handleSignUp({commit}, credentials) {
+        console.log("handling....")
+        return new Promise( async (resolve, reject) => {
+     await auth.createUserWithEmailAndPassword(credentials.email, credentials.password)
+         .then(() => {
+             resolve({
+                 message:"Email Sign Up Successful 😎",
+                     code: 200
+                 })
+         })
+         .catch((err) => reject({error:err,
+         code:400}))
+        })
+      },
     async uploadAndReturnDownLoadUrl({commit}, file) {
         return new Promise(async (resolve, reject) =>{
 await storageRef.child("catalog/" + file.name).put(file).then(async() => {
@@ -36,21 +54,18 @@ await storageRef.child("catalog/" + file.name).put(file).then(async() => {
 });
         })
     },
-      async getProducts({commit}) {
-          return new Promise(async (resolve, reject) => {
-              await catalogReference.get()
-                  .then((docs) => {
-                   resolve(docs.docs.map(doc => doc.data()))
-                  })
-          })
-      },
+      bindProducts: firestoreAction(({ bindFirestoreRef }) => {
+          return bindFirestoreRef('products', db.collection('catalog'))
+      }),
+      unbindProducts: firestoreAction(({ unbindFirestoreRef }) => {
+          unbindFirestoreRef('todos')
+      })
   },
   getters: {
-    //needs setup
     allProducts: state => {
-      console.log("from index.js ", state)
       return state.products }
   },
 
 })
+
 
